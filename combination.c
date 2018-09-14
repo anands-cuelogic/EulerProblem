@@ -9,6 +9,7 @@ char operator[] = {'+', '-', '/', '*'};
 typedef struct expressionTree
 {
     char num;
+    struct expressionTree *next;
 } ET;
 
 int getIndex()
