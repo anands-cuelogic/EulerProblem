@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 const int UPPER = 3, LOWER = 0;
-char operator[] = {'+', '-', '/', '*', '(', ')'};
+char operator[] = {'+', '-', '/', '*'};
 
 void display(int *numArray, int size)
 {
@@ -23,7 +23,7 @@ void createExpression(int *numArray, int size)
     int i = 0, result = 0;
     for (i = 0; i < 4; i++)
     {
-        printf("a %c b %c c %c d\n", operator[getIndex()], operator[getIndex()], operator[getIndex()]);
+        printf("%c a %c b %c c d\n", operator[getIndex()], operator[getIndex()], operator[getIndex()]);
     }
 }
 
