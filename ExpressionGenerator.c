@@ -121,54 +121,50 @@ int getIndex()
     return (rand() % (UPPER - LOWER + 1)) + LOWER;
 }
 
+void appendOperator(int upper, char *newExpression)
+{
+    int i, j = strlen(newExpression);
+    for (i = 0; i < upper; i++)
+    {
+        newExpression[j++] = operator[getIndex()];
+    }
+}
+
+void appendOperand(int lower, int upper, int j, char *str, char *newExpression)
+{
+    int i;
+    for (i = lower; i < upper; i++)
+    {
+        newExpression[j++] = str[i];
+    }
+    newExpression[j] = '\0';
+}
+
 char *getExpression(char *str, int partition)
 {
-    int i, j;
+    int i;
     char *newExpression = malloc(8 * sizeof(char *));
     if (partition == 1)
     {
-        for (i = 0, j = 0; i < 2;)
-        {
-            newExpression[j++] = str[i++];
-        }
-        newExpression[j++] = operator[getIndex()];
+        appendOperand(0, 2, 0, str, newExpression);
+        appendOperator(1, newExpression);
 
-        for (; i < 4; i++)
-        {
-            newExpression[j++] = str[i];
-        }
-        for (i = 0; i < 3 - partition; i++)
-        {
-            newExpression[j++] = operator[getIndex()];
-        }
+        appendOperand(2, 4, 3, str, newExpression);
+        appendOperator(3 - partition, newExpression);
     }
 
     else if (partition == 2)
     {
-        for (i = 0, j = 0; i < 3;)
-        {
-            newExpression[j++] = str[i++];
-        }
-        newExpression[j++] = operator[getIndex()];
-        newExpression[j++] = operator[getIndex()];
+        appendOperand(0, 3, 0, str, newExpression);
+        appendOperator(2, newExpression);
 
-        for (; i < 4; i++)
-            newExpression[j++] = str[i];
-
-        for (i = 0; i < 3 - partition; i++)
-        {
-            newExpression[j++] = operator[getIndex()];
-        }
+        appendOperand(3, 4, 5, str, newExpression);
+        appendOperator(3 - partition, newExpression);
     }
     else if (partition == 3)
     {
-        for (i = 0, j = 0; i < 4;)
-        {
-            newExpression[j++] = str[i++];
-        }
-        newExpression[j++] = operator[getIndex()];
-        newExpression[j++] = operator[getIndex()];
-        newExpression[j++] = operator[getIndex()];
+        appendOperand(0, 4, 0, str, newExpression);
+        appendOperator(3, newExpression);
     }
     return newExpression;
 }
