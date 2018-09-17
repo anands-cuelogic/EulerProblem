@@ -31,7 +31,7 @@ int isOperator(char operator)
     return 0;
 }
 
-int evaluate(char operator, int operand1, int operand2)
+int performOperation(char operator, int operand1, int operand2)
 {
     switch (operator)
     {
@@ -74,7 +74,7 @@ void evaluateExpression(char *expression, int *stack)
                 printf("Invalid expression");
                 return;
             }
-            push(stack, evaluate(expression[i], operand1, operand2));
+            push(stack, performOperation(expression[i], operand1, operand2));
         }
         else
         {
@@ -175,10 +175,10 @@ char *getExpression(char *str, int partition)
 
 void displayNumber()
 {
-    printf("\na: %d b: %d c: %d d: %d\n", a, b, c, d);
+    printf("\na: %d \nb: %d \nc: %d \nd: %d\n", a, b, c, d);
 }
 
-void permutation(char *expression, int lower, int upper)
+void combinationUtil(char *expression, int lower, int upper)
 {
     int i;
 
@@ -191,7 +191,7 @@ void permutation(char *expression, int lower, int upper)
         for (i = lower; i <= upper; i++)
         {
             swap((expression + lower), (expression + i));
-            permutation(expression, lower + 1, upper);
+            combinationUtil(expression, lower + 1, upper);
             swap((expression + lower), (expression + i));
         }
     }
@@ -201,9 +201,13 @@ int main()
 {
     int i, j, partition;
     char expression[5] = "abcd";
+    char bestSolution[10];
+    int bestResult = 0;
+
+    int stack[10];
     char *postfixExpression = malloc(sizeof(char *));
+
     srand(time(0));
-    int stack[10] = {0};
     for (i = 0; i < 38; i++)
     {
         combinationString[i] = malloc(4 * sizeof(char *));
@@ -214,7 +218,7 @@ int main()
     c = generateNumber(b + 1, 8);
     d = generateNumber(c + 1, 9);
 
-    permutation(expression, 0, strlen(expression) - 1);
+    combinationUtil(expression, 0, strlen(expression) - 1);
     for (i = 0; i < count; i++)
     {
         for (j = 0; j < 10; j++)
@@ -227,13 +231,23 @@ int main()
             partition = 1;
 
         postfixExpression = getExpression(combinationString[i], partition);
-        displayNumber();
         printf("Expression %s", postfixExpression);
 
         evaluateExpression(postfixExpression, stack);
 
         printf("\nResult ");
         display(stack);
+        if (bestResult < stack[top])
+        {
+            bestResult = stack[top];
+            strcpy(bestSolution, postfixExpression);
+        }
         printf("\n________________________________\n");
     }
+
+    printf("\n********BEST SOLUTION*********\n");
+
+    displayNumber();
+    printf("Suitable expression is :: %s ", bestSolution);
+    printf("\nResult :: %d\n", bestResult);
 }
