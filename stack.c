@@ -4,7 +4,11 @@
 #include <time.h>
 
 int top = -1;
-int a, b, c, d;
+int a, b, c, d, count;
+char *combinationString[30];
+const int UPPER = 3, LOWER = 0;
+char operator[] = {'+', '-', '/', '*'};
+
 int isEmpty()
 {
     return (top == -1);
@@ -38,7 +42,10 @@ int evaluate(char operator, int operand1, int operand2)
     case '*':
         return operand1 * operand2;
     case '/':
-        return operand2 / operand1;
+        if (operand1 != 0)
+            return operand2 / operand1;
+        printf("\nDenominator cannot be zero");
+        return 0;
     }
 }
 
@@ -89,7 +96,10 @@ void display(int *stack)
     int i;
     for (i = 0; i <= top; i++)
     {
-        printf(" %d ", stack[i]);
+        if (stack[i] > -1)
+            printf(" %d ", stack[i]);
+        else
+            printf("Number is not postive integer");
     }
 }
 
@@ -98,19 +108,132 @@ int generateNumber(int lower, int upper)
     return (rand() % (upper - lower + 1)) + lower;
 }
 
+void swap(char *x, char *y)
+{
+    char temp;
+    temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+int getIndex()
+{
+    return (rand() % (UPPER - LOWER + 1)) + LOWER;
+}
+
+char *getExpression(char *str, int partition)
+{
+    int i, j;
+    char *newExpression = malloc(8 * sizeof(char *));
+    if (partition == 1)
+    {
+        for (i = 0, j = 0; i < 2;)
+        {
+            newExpression[j++] = str[i++];
+        }
+        newExpression[j++] = operator[getIndex()];
+
+        for (; i < 4; i++)
+        {
+            newExpression[j++] = str[i];
+        }
+        for (i = 0; i < 3 - partition; i++)
+        {
+            newExpression[j++] = operator[getIndex()];
+        }
+    }
+
+    else if (partition == 2)
+    {
+        for (i = 0, j = 0; i < 3;)
+        {
+            newExpression[j++] = str[i++];
+        }
+        newExpression[j++] = operator[getIndex()];
+        newExpression[j++] = operator[getIndex()];
+
+        for (; i < 4; i++)
+            newExpression[j++] = str[i];
+
+        for (i = 0; i < 3 - partition; i++)
+        {
+            newExpression[j++] = operator[getIndex()];
+        }
+    }
+    else if (partition == 3)
+    {
+        for (i = 0, j = 0; i < 4;)
+        {
+            newExpression[j++] = str[i++];
+        }
+        newExpression[j++] = operator[getIndex()];
+        newExpression[j++] = operator[getIndex()];
+        newExpression[j++] = operator[getIndex()];
+    }
+    return newExpression;
+}
+
+void displayNumber()
+{
+    printf("\na: %d b: %d c: %d d: %d\n", a, b, c, d);
+}
+
+void permutation(char *expression, int lower, int upper)
+{
+    int i;
+
+    if (lower == upper)
+    {
+        strcpy(combinationString[count++], expression);
+    }
+    else
+    {
+        for (i = lower; i <= upper; i++)
+        {
+            swap((expression + lower), (expression + i));
+            permutation(expression, lower + 1, upper);
+            swap((expression + lower), (expression + i));
+        }
+    }
+}
+
 int main()
 {
+    int i, j, partition;
+    char expression[5] = "abcd";
+    char *postfixExpression = malloc(sizeof(char *));
     srand(time(0));
-    int *stack = malloc(4 * sizeof(int));
+    int stack[10] = {0};
+    for (i = 0; i < 38; i++)
+    {
+        combinationString[i] = malloc(4 * sizeof(char *));
+    }
 
     a = generateNumber(0, 6);
     b = generateNumber(a + 1, 7);
     c = generateNumber(b + 1, 8);
     d = generateNumber(c + 1, 9);
 
-    printf("\na %d\nb %d\nc %d\nd %d", a, b, c, d);
+    permutation(expression, 0, strlen(expression) - 1);
+    for (i = 0; i < count; i++)
+    {
+        for (j = 0; j < 10; j++)
+        {
+            stack[j] = 0;
+        }
+        top = -1;
+        partition = getIndex();
+        if (partition == 0)
+            partition = 1;
 
-    char *expression = "abc-*d+";
-    evaluateExpression(expression, stack);
-    display(stack);
+        postfixExpression = getExpression(combinationString[i], partition);
+        displayNumber();
+        printf("Expression %s", postfixExpression);
+
+        evaluateExpression(postfixExpression, stack);
+
+        printf("\nResult ");
+        display(stack);
+        printf("\n________________________________\n");
+    }
 }
