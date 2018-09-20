@@ -4,8 +4,8 @@
 #include <time.h>
 
 int top = -1;
-int a, b, c, d, count;
-char *combinationString[30];
+int a, b, c, d, count, operatorCombinationCount;
+char *combinationString[30], *operatorCombinationString[64];
 const int UPPER = 3, LOWER = 0;
 char operator[] = {'+', '-', '/', '*'};
 
@@ -174,10 +174,43 @@ void displayNumber()
     printf("\na: %d \nb: %d \nc: %d \nd: %d\n", a, b, c, d);
 }
 
+//Generate the combination of operator
+void operatorCombinationUtil(int i, int j, int k)
+{
+    if (i < 4)
+    {
+        if (j < 4)
+        {
+            if (k < 4)
+            {
+                //Store the operator in operatorCombinationString
+                operatorCombinationString[operatorCombinationCount][0] = operator[i];
+                operatorCombinationString[operatorCombinationCount][1] = operator[j];
+                operatorCombinationString[operatorCombinationCount][2] = operator[k];
+
+                operatorCombinationCount += 1;
+
+                //Recursive call to operatorCombinationUtil
+                operatorCombinationUtil(i, j, k + 1);
+            }
+            else
+            {
+                //Recursive call to operatorCombinationUtil
+                operatorCombinationUtil(i, j + 1, 0);
+            }
+        }
+        else
+        {
+            //Recursive call to operatorCombinationUtil
+            operatorCombinationUtil(i + 1, 0, 0);
+        }
+    }
+}
+
+//Generate the combination of operand
 void combinationUtil(char *expression, int lower, int upper)
 {
     int i;
-
     if (lower == upper)
     {
         strcpy(combinationString[count++], expression);
@@ -204,17 +237,38 @@ int main()
     char *postfixExpression = malloc(sizeof(char *));
 
     srand(time(0));
+
+    //Allocate the memory for combination of operand
     for (i = 0; i < 38; i++)
     {
         combinationString[i] = malloc(4 * sizeof(char *));
     }
 
+    //Allocate the memory for combination of operator
+    for (i = 0; i < 64; i++)
+    {
+        operatorCombinationString[i] = malloc(4 * sizeof(char *));
+    }
+
+    //To genrate all operator combination
+    operatorCombinationUtil(0, 0, 0);
+
+    //To print all operator combination
+    printf("\nExpression combination string is :\n");
+    for (i = 0; i < operatorCombinationCount; i++)
+    {
+        printf("\n%s ", operatorCombinationString[i]);
+    }
+
+    //Generate the random number
     a = generateNumber(0, 6);
     b = generateNumber(a + 1, 7);
     c = generateNumber(b + 1, 8);
     d = generateNumber(c + 1, 9);
 
+    //To generate all operand combination
     combinationUtil(expression, 0, strlen(expression) - 1);
+
     for (i = 0; i < count; i++)
     {
         for (j = 0; j < 10; j++)
