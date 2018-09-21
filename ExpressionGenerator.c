@@ -177,6 +177,7 @@ void displayNumber()
 //Generate the combination of operator
 void operatorCombinationUtil(int i, int j, int k)
 {
+    int ii;
     if (i < 4)
     {
         if (j < 4)
@@ -261,10 +262,10 @@ int main()
     }
 
     //Generate the random number
-    a = generateNumber(0, 6);
-    b = generateNumber(a + 1, 7);
-    c = generateNumber(b + 1, 8);
-    d = generateNumber(c + 1, 9);
+    a = 1; //generateNumber(0, 6);
+    b = 2; //generateNumber(a + 1, 7);
+    c = 5; //generateNumber(b + 1, 8);
+    d = 8; //generateNumber(c + 1, 9);
 
     //To generate all operand combination
     combinationUtil(expression, 0, strlen(expression) - 1);

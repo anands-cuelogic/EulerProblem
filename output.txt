@@ -1,0 +1,96 @@
+
+Expression combination string is :
+
+abcd 
+abdc 
+acbd 
+acdb 
+adcb 
+adbc 
+bacd 
+badc 
+bcad 
+bcda 
+bdca 
+bdac 
+cbad 
+cbda 
+cabd 
+cadb 
+cdab 
+cdba 
+dbca 
+dbac 
+dcba 
+dcab 
+dacb 
+dabc Expression ab+cd++
+Result  16 Expression abcd++-
+Result  14 Expression bacd++-
+Result  12 Expression cbad++-
+Result  6 Expression abcd++*
+Result  15 Expression bacd++*
+Result  28 Expression cbad++*
+Result  55 Expression dbca++*
+Result  64 Expression dbca++/
+Result  1 Expression ab+cd+-
+Result  10 Expression ac+bd+-
+Result  4 Expression bc+ad+-
+Result  2 Expression abcd+-*
+Result  11 Expression acbd+-*
+Result  5 Expression bacd+-*
+Result  24 Expression bcad+-*
+Result  8 Expression cbad+-*
+Result  35 Expression cabd+-*
+Result  45 Expression dbca+-*
+Result  32 Expression dacb+-*
+Result  48 Expression ab+cd+*
+Result  39 Expression abcd+*+
+Result  27 Expression ac+bd+*
+Result  60 Expression acbd+*+
+Result  51 Expression ad+cb+*
+Result  63 Expression adcb+*+
+Result  57 Expression bac+*d+
+Result  20 Expression bad+*c+
+Result  23 Expression bcad+*+
+Result  47 Expression bdca+*+
+Result  50 Expression cdab+*+
+Result  29 Expression abcd+*-
+Result  25 Expression acbd+*-
+Result  49 Expression bcad+*-
+Result  43 Expression bdca+*-
+Result  46 Expression cbad+*-
+Result  13 Expression cdab+*-
+Result  19 Expression dcba+*-
+Result  7 Expression abcd+**
+Result  26 Expression adcb+**
+Result  56 Expression bcad+**
+Result  90 Expression bdca+**
+Result  96 Expression cdab+**
+Result  120 Expression bdca+/+
+Result  3 Expression cba+/d+
+Result  9 Expression acbd-*+
+Result  31 Expression ad-bc-*
+Result  21 Expression bcad-*+
+Result  37 Expression bdac-*+
+Result  34 Expression bcad-*-
+Result  33 Expression bdac-*-
+Result  30 Expression bcad-**
+Result  70 Expression cdab-**
+Result  40 Expression ab*cd*+
+Result  42 Expression abc*+d*
+Result  88 Expression abd*+c*
+Result  85 Expression acbd*++
+Result  22 Expression acd*+b*
+Result  82 Expression ad*cb*+
+Result  18 Expression abcd*+-
+Result  41 Expression adcb*+-
+Result  17 Expression ab*cd*-
+Result  38 Expression abc*-d*
+Result  72 Expression abd*-c*
+Result  75 Expression acd*-b*
+Result  78 Expression ab*cd**
+Result  80 Expression abcd**+
+Result  81 Expression abcd**-
+Result  79 
+Count 64
